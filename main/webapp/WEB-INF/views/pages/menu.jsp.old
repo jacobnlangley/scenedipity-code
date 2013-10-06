@@ -1,0 +1,348 @@
+<%-- This generates the center specific to each page 
+--%><%@ page import="scene.constants.*,scene.model.*,scene.tools.TwitterTimeline"%><%
+%><%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %><%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %><%
+%><%@include file="/views/common/i18n.jsp"%><%
+
+%><%!
+// --- Functions ---------------------------------------------------------------------------------------------------------------------------v
+// --- Process Text as Input if editable ----------------------------------------v
+public String p(String s,String id, String cssClass, Boolean editable){
+	if(s==null || s.equalsIgnoreCase("null") || s.length()<1){
+		if(editable){
+		if(id.startsWith("cT")){s="enter course title";}
+		else if(id.startsWith("mT")){s="enter a title for your menu";}
+		else if(id.startsWith("addr1")){s="enter address 1";}
+		else if(id.startsWith("addr2")){s="enter address 2";}
+		else if(id.startsWith("foursquare")){s="enter your foursquare venue ID";}
+		else if(id.startsWith("p")){s="enter phone number";}
+		else if(id.startsWith("bL")){s="enter a snippet like &quot;We specialize in making food.&quot;";}
+		else if(id.startsWith("url")){s="enter your website&#8217;s url like:  &quot;http://scndp.it/ &quot";}
+		else if(id.startsWith("foursquare")){s="enter your foursquare venue ID";}
+		else{s="enter text";}
+		}
+		else{s="";}
+	}
+	if(editable){
+		StringBuilder temp = new StringBuilder();
+		temp.append("<input id='"+id+"' class='"+cssClass+" i' type='text' ");
+		if(!s.startsWith("enter")){
+				temp.append(" value='"+s+"'");
+		}
+		temp.append(" alt='"+s+"' /><div class=\"ent\"></div>");
+		return temp.toString();
+	}
+	return s;
+}
+
+// --- Process Text as text area if editable ----------------------------------------v
+public String p2(String s,String id, String cssClass, Boolean editable){
+	if(s==null || s.equalsIgnoreCase("null") || s.length()<1){
+		if(editable){
+			if(id.startsWith("cD")){s="enter a description for the course";}
+			else if(id.startsWith("iDe")){s="enter a description for the item";}
+			else if(id.startsWith("mD")){s="enter a description for the menu";}
+			else{s="enter text";}
+			}
+			else{s="";}
+		}
+	if(editable){
+		StringBuilder temp = new StringBuilder();
+		temp.append("<textarea id='"+id+"' class='"+cssClass+" i' alt='"+s+"'>");
+		if(!s.startsWith("enter")){
+			temp.append(s);
+		}
+		temp.append("</textarea><div class=\"ent\"></div>");
+		return temp.toString();
+	}
+	return s;
+}
+
+public String sizeAndPrice(String s, Double p, String size, int menuID, int courseID, int itemID){
+	StringBuilder temp = new StringBuilder();
+	//item price
+	temp.append("<div class=\"iPrice\"><input alt=\""+size+" price\" id=\"iPrice"+size+"-"+menuID+"-"+courseID+"-"+itemID+"\"");
+	if(p>0){temp.append(" value=\""+p+"\"");}
+	temp.append(" class=\"i "+size+" \" type=\"text\" placeholder=\""+size+" Price\"/>");
+	temp.append("<div class=\"ent\"></div>");
+	temp.append("</div>");
+	
+	temp.append("<div class=\"iSize\"><input alt=\""+size+" size\" id=\"iSize"+size+"-"+menuID+"-"+courseID+"-"+itemID+"\"");
+	if(s!=null && !s.isEmpty()){temp.append(" value=\""+s+"\"");}
+	temp.append(" class=\"i "+size+" \" type=\"text\" placeholder=\""+size+" Size\"/>");
+	temp.append("<div class=\"ent\"></div>");
+	temp.append("</div>");
+	
+	return temp.toString();
+	
+}
+//--------------------------------------------------------------------------------------------------------------------------------------------^
+%><%
+
+// --- Notes -------------------------------------------------------------------------------
+// --- Implementing Reviews----------------
+//
+//<div class="hreview">
+// <span class="item">
+//     <span class="fn">L'Amourita Pizza</span>
+//   </span>
+//   <span class="rating">3.5</span>
+//   <span class="reviewer">Ulysses Grant</span>
+//   <span class="dtreviewed">2009-01-06</span>
+//   <span class="summary">"Delicious, tasty pizza in Eastlake."</span>
+//</div>
+
+//<div class="hproduct">
+//   <span class="brand">ACME</span>
+//  <span class="category">Heavy objects</span>
+//   <span class="fn">Large all-purpose anvil</span>
+//   <span class="description">
+//     If you need an object to drop from a height, the classic 
+//     A23859 anvil from ACME is the way to go.</span>
+//   <span class="url">http://anvil.example.com</span>
+//</div>
+
+		
+// --- Process Variables
+try{
+		
+		// --- Update the business's menu
+		if(editing){ session.removeAttribute("theBusiness");session.setAttribute("theBusiness",theMenu);}
+		
+		if(false && editing && theBusiness.getStep()==0){ // --- display Message for First Login -----------------------------------------------------------------------------v
+			%><div id="tutorial" class="message green" ><%
+				%><b style="font-size:18px;color:#1b8d44">Welcome to scenedipity!</b><br/><%
+				%> -- We're so excited you signed up!  Editing your info and menu is super simple!  Try it out below. --<br/><br/><%
+				String tip= "Try it out for yourself here.  Change the text, then press Enter to submit!";
+				%>tip: <%
+				%><input  id="test" type="text" <%
+					%> style="font-size:15px;padding:4px;width:500px; border:solid 1px green"<%
+					%> value="<%=tip%>"<%
+					%> onfocus="if(this.value==&quot;<%=tip %>&quot;){this.value=&quot;&quot;;}this.style.color=&quot;#000&quot;;"<%
+					%> onblur="if(this.value==&quot;&quot;){this.value=&quot;<%=tip %>&quot;;this.style.color=&quot;#999&quot;;}" <%
+					%> onkeypress='if(event.keyCode==13){s("test","test","green");}'<%
+				%>/><br/><%
+			%></div><%
+		}//----------------------------------------------------------------------------------------------------------------------------------------^
+		
+			%><%=theMenu.getMessage()%><%
+			%><div class="menu <% if(editing){%>editing<%}%>"><%
+				
+				%><div class="menuHeaderWrapper"><div class="menuHeader vcard"><%
+				if(editing){
+					%><div class="message yellow"><%
+						%><a href="<%=Translator.toURL(theMenu.getUsername())%><%
+							if(isEditing){%>&amp;preview=please" >preview live menu<%}
+							else{
+								%>">continue editing<%
+								editing=false;
+							}
+						%></a><br/><%
+					%></div><%
+					}
+						
+					if(theMenu.getAvatar()!=null){%><img class="photo" src="<%=theMenu.getAvatar() %>"/><%}
+					%><span class="fn org"><%=p(theMenu.getBusinessName(),"fn","fn",editing)%></span><%
+					%><div class="bL"><%=p(theMenu.getBusinessLine(),"bL","bL",editing)%></div><%
+					%><div class="adr"><%
+						%><span class="street-address"><%=p(theMenu.getAddr1(),"addr1","",editing)%></span><%
+						if((theMenu.getAddr2()!=null && !theMenu.getAddr2().isEmpty()) || editing){
+						%><br/><span class="street-address2"><%=p(theMenu.getAddr2(),"addr2","",editing)%></span><%
+						}%><br/><%
+						String zip=theMenu.getZipCode().toString();
+						%><span class="locality"><%try{%><%=ZipCodeCache.getCity(zip)%><%}catch(Exception ex){}%></span><% 
+						%><span class="region"><%try{%> <%=ZipCodeCache.getState(zip)%><%}catch(Exception ex){}%></span><% 
+						%><span class="postal-code"> <%=zip%></span><br/><br/><%
+						%><a href="<%="http://scndp.it/"+theMenu.getUsername()%>" alt="personal site" class="url" rel="no-follow me">scndp.it/<%=theMenu.getUsername()%></a><%
+						%><a href="#menu" alt="jump to menu" class="url" rel="no-follow">menu</a><%
+						%><a href="#twitter" alt="jump to social links" class="url" rel="no-follow">social</a><%
+					%></div><%// end of adr
+					
+					// --- business card
+					%><div class="bC"><ul><%
+						%><li><span class="tel"><span class="type">phone</span> : <span class="value"><%=p(theMenu.getPhone(),"p","bC",editing)%></span></span></li><%
+						%><li>twitter :<%
+						if(!editing){%><a class="url"  href="http://twitter.com/<%=theMenu.getTwitter()%>" rel="me no-follow"><%}
+						%><%=p(theMenu.getTwitter(),"t","bC",editing)%><%
+						if(!editing){%></a><%}
+						%></li><%
+						
+						%><li>website : <%
+						if(!editing && theMenu.getUrl()!=null){%><a href="http://<%=theMenu.getUrl()%>" alt="personal site" class="url" rel="no-follow me"><%=theMenu.getUrl()%></a><%}
+						else{%><%=p(theMenu.getUrl(),"url","",editing)%><%} 
+						%></li><%
+						%><li>foursquare:<%
+						if(!editing && theMenu.getFoursquare()!=null){%><a href="https://foursquare.com/venue/<%=theMenu.getFoursquare()%>" alt="personal site" class="url" rel="no-follow me"><%=theMenu.getBusinessName()%></a><%}
+						else{%><%=p(theMenu.getFoursquare(),"foursquare","",editing)%><%} 
+						//></li><li>features:</li><%
+						//><li>hours:</li><%
+						//><li>notes:</li><%
+					%></ul></div><%
+				%></div></div><% //end menuHeader
+				
+				// --- business tags
+				%><div class="bT"></div><%
+				
+				// --- social tags
+				%><div class="sT"></div><%
+				
+				// --------------------------------
+				// --- CSS Abbreviations:
+				//		mT: menuTitle
+				//		mD: menuDescription
+				//
+				//		c: course
+				// 		cD : courseDescription
+				// ---------------------------------
+				boolean emptyMenu;
+				for(Menu m: theMenu.getMenus().values()){
+				%><div class="menuTab"><%=m.getMenuName()%></div><%
+				 emptyMenu = m.getMenuID()<1;
+					%><div class="mT"><%=p(m.getMenuName(),"mT-"+m.getMenuID(),"mT",editing)%></div><%
+					if(!emptyMenu){%><div class="mD"><%=p2(m.getMenuDescription(),"mD-"+m.getMenuID(),"mD",editing)%></div><%}
+					%><div class="editMenu"><%
+						%><div class="editMenuTitle" id="menu"><%
+							
+						for(MenuCourse c: m.getMenuCourses().values()){
+							if(!emptyMenu){
+							%><div class="c"><%=p(c.getMenuCourseName(),"cT-"+m.getMenuID()+"-"+c.getCourseID(),"c",editing)%></div><%
+							%><div class="cD"><%=p2(c.getMenuCourseDescription(),"cD-"+m.getMenuID()+"-"+c.getCourseID(),"cD",editing)%></div><%
+							
+							for(MenuItem i: c.getMenuItems().values()){
+								if(i.getId() > 0){
+									%><div class="menuItem"><%
+										if(editing){%><div class="static"><%} 
+										%><span class="itemName"><%=p(i.getTitle(),"iN-"+m.getMenuID()+"-"+c.getCourseID()+"-"+i.getId(),"itemName",false)%></span><%
+										%><span class="itemDescription"><%=p2(i.getDescription(),"iDe-"+m.getMenuID()+"-"+c.getCourseID()+"-"+i.getId(),"itemDescription",false)%></span><%
+									
+										if(i.getPriceXL()>0){%><span class="iP"><%=i.getPriceXL()%></span><%}
+										if(i.getSizeXL()!=null && !i.getSizeXL().isEmpty()){%><span class="iS"><%=i.getSizeXL()%></span><%}
+											
+										if(i.getPriceL()>0){%><span class="iP"><%=i.getPriceL()%></span><%}
+										if(i.getSizeL()!=null && !i.getSizeL().isEmpty()){%><span class="iS"><%=i.getSizeL()%></span><%}
+										
+										if(i.getPrice()>0){%><span class="iP"><%=i.getPrice()%></span><%}
+										if(i.getSize()!=null && !i.getSize().isEmpty()){%><span class="iS"><%=i.getSize()%></span><%}
+										
+										if(i.getPriceS()>0){%><span class="iP"><%=i.getPriceS()%></span><%}
+										if(i.getSizeS()!=null && !i.getSizeS().isEmpty()){%><span class="iS"><%=i.getSizeS()%></span><%}
+										
+										// --- add the editable divs to the page
+										if(editing){
+										%></div><%
+										%><div class="editable"><%
+										%><div class="options"><%
+											%><a class="finish">finished editing</a><%
+											%><a class="delete" id="<%=m.getMenuID() + "-" + c.getCourseID()+"-"+i.getId()%>">delete this item</a><%
+										%></div><%
+										%><span class="itemName"><%=p(i.getTitle(),"iN-"+m.getMenuID()+"-"+c.getCourseID()+"-"+i.getId(),"itemName",editing)%></span><%
+										%><span class="itemDescription"><%=p2(i.getDescription(),"iDe-"+m.getMenuID()+"-"+c.getCourseID()+"-"+i.getId(),"itemDescription",editing)%></span><%
+										
+										%><div class="itemSizeAndPrice"><%
+											%><%=sizeAndPrice(i.getSizeXL(), i.getPriceXL(), "XL", m.getMenuID(),c.getCourseID(),i.getId())%><%
+											%><%=sizeAndPrice(i.getSizeL(), i.getPriceL(), "L", m.getMenuID(),c.getCourseID(),i.getId())%><%
+											%><%=sizeAndPrice(i.getSize(), i.getPrice(), "", m.getMenuID(),c.getCourseID(),i.getId())%><%
+											%><%=sizeAndPrice(i.getSizeS(), i.getPriceS(), "S", m.getMenuID(),c.getCourseID(),i.getId())%><%									
+										%></div><%
+												
+										%></div><% // --- end editable
+										}
+									%></div><% // --- end menu item
+								}
+							}
+							if(editing){%><div class="menuItem" style="text-align:center"><a class="insert" id="<%=m.getMenuID() + "-" + c.getCourseID()+"-"%>" style="float:none" >add a menu item to<b> "<%=c.getMenuCourseName() %>"</b></a></div><%}
+							} // -- end course loop.
+						} // -- end if(menuExists) check
+						
+							
+							if(editing){ // --- add templates
+								
+								// ----------------------------- new course link -----------------------------//
+								%><div <%if(emptyMenu){ %>style="display:none"<%} %> class="c" style="margin-bottom:15px"><%
+									%><a style="color:white" class="insertCourse" id="<%=m.getMenuID()%>">add a new course to this menu</a><%
+								%></div><%
+							
+								
+								// ----------------------------- course template -----------------------------//
+								%><div id="courseTemplate" style="display:none"><%
+									%><div class="c"><%
+										%><input class=" c i" type="text" alt="enter course title" /><div class="ent"></div><%
+									%></div><%
+									%><div class="cD"><%
+										%><textarea class="cD i"  alt="enter course description"></textarea><div class="ent"></div><%
+									%></div><%
+									%><div class="menuItem" style="text-align:center"><a style="display:none" class="insert" style="float:none; display:none" >add a menu item</a></div><%
+								%></div><%
+	
+								
+								// -------------------------- menu item template --------------------------//
+								%><div id="template" style="display:none" class="menuItem"><%
+									%><div class="itemName"><%
+										%><input class="itemName i" type="text" alt="enter item title" /><%
+										%><div class="ent"></div><%
+									%></div><%
+									
+									%><div class="itemDescription"><%
+										%><textarea class="itemDescription i" alt="enter item description"><%
+										%></textarea><%
+										%><div class="ent"></div><%
+									%></div><%
+									
+									%><div class="itemSizeAndPrice"><%
+										%><%=sizeAndPrice("", 0.0, "XL",0,0,0)%><%
+										%><%=sizeAndPrice("", 0.0, "L",0,0,0)%><%
+										%><%=sizeAndPrice("", 0.0, "",0,0,0)%><%
+										%><%=sizeAndPrice("", 0.0, "S",0,0,0)%><%									
+									%></div><%
+								%></div><%
+
+							}// --- end of  templates
+						%></div><%// --- endEditMenuTitle
+					%></div><% // --- end editMenu 			
+				} // -- end menu loop
+			
+		%></div><% // End Menu
+		
+		
+		
+		
+		%><div id="twitter" class='query'><%
+		%><ul class="tweet_list"><%
+			%><li><%
+				%><img  height="20px" style="display:inline" src="https://twitter.com/phoenix/img/tiny-timeline-bird.png"/><%
+				%><img height="20px" style="display:inline" src="http://www.scenedipity.com/style/foursquare.jpg"/><%
+			%></li><%
+		%></ul><%
+		try{
+		String imgs = theMenu.getFlickrScene();
+		if(imgs!=null){
+			%><ul class="pics"><%
+				for(String s : imgs.split("-")){%><li><img class="pic"  src="<%=s.replace("##","t")%>"/></li><%}
+			%></ul><%
+		}
+		}catch(Exception ex){}
+		%><ul style="list-style:none"><li><img id="large" style="display:none; width:400px;"/></li></ul><%
+		%><ul id="social" class="pics"></ul><%
+		
+		%><ul class="tweet_list"><%
+		%><%try{%><%=TwitterTimeline.getTimelin(theMenu.getTwitter().replace("@",""),true)%><%
+			%><li style="border:none;text-align:right;font-size:xsmall">More tweets <b>from</b> <a class="moreTweets" style="color:red;"><%=theMenu.getTwitter().replace("@","")%></a></li><%
+			}catch(Exception ex){ %><%}
+	%></ul><%
+
+	
+	%><ul class="tweet_list"><%
+	%><%try{%><%=TwitterTimeline.getQuery(theMenu.getBusinessName())%><%
+	%><li style="border:none;text-align:right;font-size:xsmall">More tweets <b>about</b> <a class="moreTweets" style="color:red;"><%=theMenu.getBusinessName()%></a></li><%
+	}catch(Exception ex){}
+	%></ul><%
+
+%><ul class="tweet_list"><%
+%><%try{%><%=TwitterTimeline.getQuery("scenedipity")%><%}catch(Exception ex){}%><%
+%><li style="border:none;text-align:right;font-size:xsmall">More <a class="moreTweets" style="color:red;">@scenedipity</a></li><%
+%></ul><%
+		
+		//><jsp:include page="../common/foursquare.jsp"  /><%
+		%></div><%
+		
+		%><%=theMenu.getMessage()%><%
+					}catch(Exception e){%><%=e.toString()%><%}%>

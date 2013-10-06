@@ -1,0 +1,37 @@
+<%if(!isLoggedIn){
+		%><div class="form"><%
+						%><h1>Own a restaurant?</h1><%
+						%><h3>then you know how awesome free is (maybe...)</h3><%
+						%><h:form id="registerForm"><%
+						/*	STYLE NOTES: 	ft = form title 	fi = form input		fe = form error*/
+						
+	        					%><h:message for="businessName"  errorStyle="float:left;width:100%; clear: both; color: red;" /><%
+								%>your business name : <%
+								%><h:inputText id="businessName" value="#{register.businessName}" validator="#{register.checkBusinessName}" styleClass="label" /><br/><%
+	        	
+								%><h:message for="username" /><%
+	        					%>username : <%
+	        					%><h:inputText id="username" value="#{register.username}" styleClass="label" /><br/><%
+	        					%><div class="n">your public profile will be : http://scenedipity.com/<b>username</b></div><br/><%
+	        					
+	        					%><h:message for="pwd" /><%
+	        					%>password : <%
+	        					%><h:inputSecret id="pwd" value="#{register.password}" styleClass="label" /><br/><%
+	        					
+	        					%><h:message for="pwd2" /><%
+	        					%>confirm password : <%
+	        					%><h:inputSecret id="pwd2" value="#{register.passwordConfirm}" styleClass="label" /><br/><%
+	        					
+	        					%><h:message for="email" /><%
+	        					%>zip code : <%
+	        					%><h:inputSecret id="zipCode" value="#{register.zipCode}" styleClass="label" /><br/><%
+	        					
+	        					%><h:message for="email" /><%
+	        					%>your business email : <%
+	        					%><h:inputText id="email" value="#{register.email}" styleClass="label" /><br/><%
+	        					%><div class="n">We don't share or sell any info... No stupid newsletters either.  promise</div><br/><%
+	        						        					
+	        					%><h:commandButton id="userAction" action="#{register.Register}"  styleClass="ft" value="Sign me up!" /><%
+		        		%></h:form><%
+		}
+%></div>

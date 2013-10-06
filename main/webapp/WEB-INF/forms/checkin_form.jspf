@@ -1,0 +1,43 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%><%
+// ---NOTE: This page assumes a logged in user has been validated.
+
+%><div class="message grey"><%
+
+	%><c:if test="${include == 'pages/schedule.jsp'}"><%
+			%><span class="message red"><b>Note:</b> Unlimited scheduling is an exclusive feature for early adopters only for a limited time.</span><%
+	%></c:if><%
+
+			// --- Print out messages trying to get them to authenticate other services
+		%><div class="oauths"><%
+		%><c:if test="${not empty user.fb_oauth_id and not empty user.twit_oauth_token}"><%
+		%>this posts to <font class="fb_name" style="font-size:inherit; color:#1D4088">facebook</font> &amp; <font class="t_name" style="font-size:13px">twitter</font>!  (<a style="float:none; font-size:inherit" href="/oauth" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+		%></c:if><%
+		%><c:if test="${not empty user.fb_oauth_id and empty user.twit_oauth_token}"><%
+			%>this <b>only</b> posts to <font class="fb_name" style="font-size:inherit; color:#1D4088">facebook</font>. (<a style="float:none; font-size:inherit" href="/oauth" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+		%></c:if><%
+		%><c:if test="${empty user.fb_oauth_id and not empty user.twit_oauth_token}"><%
+			%>this <b>only</b> posts to <font class="t_name" style="font-size:13px">twitter</font>. (<a style="float:none; font-size:inherit" href="/oauth" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+			%></c:if><%
+			%><c:if test="${empty user.fb_oauth_id and empty user.twit_oauth_token}"><%
+				%>You can publish to facebook &amp; twitter too! (<a style="float:none; font-size:inherit" href="/oauth" alt="link your scenedipity account to facebook and twitter">setup</a>)<%
+				%></c:if><%
+		%></div><%
+		
+		
+		%><textarea id="text" placeholder="Check in and spread the word..."></textarea><%
+		%><input type="text" id="lat" style="display:none"/><%
+		%><input type="text" id="lon" style="display:none"/><%
+
+		%><c:choose><c:when test="${include == 'pages/schedule.jsp'}"><%
+			%><button id="schedule" class="g-button" >schedule</button><%
+			%><button id="clear" class="g-button"  style="display:none">clear location</button><%
+		%></c:when><c:otherwise><%
+			%><button id="checkin" class="g-button" >check in </button><%//(w/ coordinates)
+		%></c:otherwise></c:choose><%
+		
+		
+	%></div><% // --- end grey div
+
+	%><c:if test="${include == 'pages/schedule.jsp'}"><%
+		%><jsp:include page="../views/pages/scheduler.jsp"/><%
+	%></c:if>

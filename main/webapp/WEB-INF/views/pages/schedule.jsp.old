@@ -1,0 +1,148 @@
+<jsp:useBean id="clock" class="scene.tools.JspCalendar" /><%
+%><%@ page import="java.text.SimpleDateFormat"%><%
+if(isLoggedIn){				
+	%><div class="message grey"><%
+		
+	 if(isScheduling){
+			%><span class="message red"><b>Note:</b> Unlimited scheduling is an exclusive feature for early adopters only for a limited time.</span><%
+	}
+		// --- Print out messages trying to get them to authenticate other services
+		%><div class="oauths"><%
+			try{
+				if(theBusiness.getFbAccessToken().length()>1 && theBusiness.getTwitterAccessToken().length()>1){
+					%>this posts to <font class="fb_name" style="font-size:inherit; color:#1D4088">facebook</font> &amp; <font class="t_name" style="font-size:13px">twitter</font>!  (<a style="float:none; font-size:inherit" href="<%=Translator.toURL("oauth")%>" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+				}else if(theBusiness.getFbAccessToken().length()>1){
+					%>this <b>only</b> posts to <font class="fb_name" style="font-size:inherit; color:#1D4088">facebook</font>. (<a style="float:none; font-size:inherit" href="<%=Translator.toURL("oauth")%>" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+				}else if(theBusiness.getTwitterAccessSecret().length()>1){
+					%>this <b>only</b> posts to <font class="t_name" style="font-size:13px">twitter</font>. (<a style="float:none; font-size:inherit" href="<%=Translator.toURL("oauth")%>" alt="link your scenedipity account to facebook and twitter">settings</a>)<%
+				}else{
+					%>You can publish to facebook &amp; twitter too! (<a style="float:none; font-size:inherit" href="<%=Translator.toURL("oauth")%>" alt="link your scenedipity account to facebook and twitter">setup</a>)<%
+				}
+			}catch(Exception e){
+				%>You can publish to facebook &amp; twitter too! (<a style="float:none; font-size:inherit" href="<%=Translator.toURL("oauth")%>" alt="link your scenedipity account to facebook and twitter">setup</a>)<%
+			}
+		%></div><%
+			
+	    java.util.Date date = new SimpleDateFormat("MM/dd/yyyy").parse(clock.getDate()); 
+		String[] days = {"Sun", "Mon", "Tue","Wed", "Thu","Fri", "Sat"}; 
+		// --- Print inputs for scheduling service
+		if(isScheduling){
+			%><select name="date" id="date"><%
+				// --- print out a week in advance
+				for(int i =0; i<7; i++){
+				%><option <%
+					%>value="<%=(1900+date.getYear())%><%
+					if(date.getMonth()<9){%>0<%=(date.getMonth()+1)%><%}
+					else{%><%=(date.getMonth()+1)%><%}
+					%><%=date.getDate()%>"><%
+					
+				if(i!=0){%><%=days[date.getDay()]+" "+date.getDate()%><%}
+				else{%>today<%}
+				%></option><%
+				date.setTime(date.getTime()+86400000); // add a single day
+				}
+			%></select><%
+			%><select name="hours" id="hour"><%
+				%><option value="0000">12:00 a</option><%
+				%><option value="0030">12:30 a</option><%
+				
+				%><option value="0100">1:00 a</option><%
+				%><option value="0130">1:30 a</option><%
+				
+				%><option value="0200">2:00 a</option><%
+				%><option value="0230">2:30 a</option><%
+				
+				%><option value="0300">3:00 a</option><%
+				%><option value="0330">3:30 a</option><%
+				
+				%><option value="0400">4:00 a</option><%
+				%><option value="0430">4:30 a</option><%
+				
+				%><option value="0500">5:00 a</option><%
+				%><option value="0530">5:30 a</option><%
+			
+				%><option value="0600">6:00 a</option><%
+				%><option value="0630">6:30 a</option><%
+				
+				%><option value="0700">7:00 a</option><%
+				%><option value="0730">7:30 a</option><%
+				
+				%><option value="0800">8:00 a</option><%
+				%><option value="0830">8:30 a</option><%
+				
+				%><option value="0900">9:00 a</option><%
+				%><option value="0930">9:30 a</option><%
+				
+				%><option value="1000">10:00 a</option><%
+				%><option value="1030">10:30 a</option><%
+				
+				%><option value="1100">11:00 a</option><%
+				%><option value="1130">11:30 a</option><%
+				
+				%><option value="1200">12:00 p</option><%
+				%><option value="1230">12:30 p</option><%
+				
+				%><option value="1300">1:00 p</option><%
+				%><option value="1330">1:30 p</option><%
+				
+				%><option value="1400">2:00 p</option><%
+				%><option value="1430">2:30 p</option><%
+				
+				%><option value="1500">3:00 p</option><%
+				%><option value="1530">3:30 p</option><%
+			
+				%><option value="1600">4:00 p</option><%
+				%><option value="1630">4:30 p</option><%
+				
+				%><option value="1700">5:00 p</option><%
+				%><option value="1730">5:30 p</option><%
+				
+				%><option value="1800">6:00 p</option><%
+				%><option value="1830">6:30 p</option><%
+			
+				%><option value="1900">7:00 p</option><%
+				%><option value="1930">7:30 p</option><%
+				
+				%><option value="2000">8:00 p</option><%
+				%><option value="2030">8:30 p</option><%
+				
+				%><option value="2100">9:00 p</option><%
+				%><option value="2130">9:30 p</option><%
+				
+				%><option value="2200">10:00 p</option><%
+				%><option value="2230">10:30 p</option><%
+				
+				%><option value="2300">11:00 p</option><%
+				%><option value="2330">11:30 p</option><%
+				
+			%></select><%
+			%><select name="timezone" id="timezone"><%
+				%><option disabled="true">timezones coming soon...</option><%
+				%><option value="0"  selected="true">EST (Eastern)</option><%
+				%><option disabled="true" value="-1" >CDT (Central)</option><%
+				%><option disabled="true" value="-2" >MDT (Mountan)</option><%
+				%><option disabled="true" value="-3" >PDT (Pacific)</option><%
+				%><option disabled="true" value="-4" >AKDT (Alaskan)</option><%
+				%><option disabled="true" value="-5" >HST (Hawaii)</option><%
+			%></select><%
+			%><input type="text"  id="addr" class="address i" alt="enter an address for a checkin OR leave blank for an announcement"/> <%
+		}
+		%><textarea id="text" placeholder="Check in and spread the word..."></textarea><%
+		%><input type="text" id="lat" style="display:none"/><%
+		%><input type="text" id="lon" style="display:none"/><%
+		
+		if(isScheduling){
+			%><button id="schedule" class="g-button" >schedule</button><%
+			%><button id="clear" class="g-button"  style="display:none">clear location</button><%
+		}else{
+			%><button id="checkin" class="g-button" >check in </button><%//(w/ coordinates)
+			//><button id="announce" class="g-button" >just post a message</button><%
+		}
+	
+	%></div><% // --- end grey div
+		
+	if(isScheduling){%><jsp:include page="../pages/scheduler.jsp"/><%}
+	
+}else if(isScheduling){ // --- else for (isCheckedIn)
+	%><div class="message red">We've added a cool new scheduling feature!  Login to try it out.</div><%
+}%>

@@ -1,0 +1,53 @@
+<%@ page import="java.util.HashMap, java.util.ArrayList, scene.model.Business, scene.constants.Translator, scene.constants.ZipCodeCache, scene.tools.DataBaseAccessWeb"%><%
+%><%@include file="../common/i18n.jsp"%><%
+
+HashMap<String, ArrayList<Business>> list = ZipCodeCache.sort(DataBaseAccessWeb.getBusinesses("left join scenedipity.foodtrucks_map using (businessID) where checkout is null and checkin is not null and fk_type=0 "));
+		for(String a:list.keySet()){
+			for(Business b : list.get(a)){
+				// --- not a unique URL --- or it is and the id is correct.
+				if(request.getParameter("streets")==null || b.getId() - Integer.parseInt(request.getParameter("var1"))==0){
+				
+					Boolean me = isLoggedIn && b.getUsername().equalsIgnoreCase(theBusiness.getUsername());
+					%><div class='foodtruck <%if(me){%>me<%}%>'<%
+					if(b.getLat()!=null && b.getLat().length()>0){
+							%> data-jmapping="{ id: <%=b.getId()%>, point: {lat: <%=b.getLat()%>, lng: <%=b.getLon()%>}, category: <%
+							if(me){%>'me'<%}
+							else{%>'Food'<%}
+						%>}"<%
+					}
+					%>><%
+						%><div class="container"><%
+							%><div class="snippet"><%
+								if(b.getAvatar()!=null){
+									%><a href="#" class="map-link" alt="show <%=b.getUsername()%> on the map"><%
+										%><img class='photo' src='<%=b.getAvatar()%>'/><%
+									%></a><%
+								}
+								
+								%><a href="#" class="map-link" alt="show <%=b.getUsername()%> on the map"><%
+									%><span class="fn org"><%=b.getBusinessName()%></span><%
+								%></a><%
+								
+								%><div class='bL'><%
+									if(b.getBusinessLine()!=null){%><%=b.getBusinessLine()%><%}
+								%></div><%
+								
+								%><div class='announcement'><%
+									if(b.getAnnouncement()!=null){%><%=b.getAnnouncement()%><%}
+								%></div><%
+							%></div><%// --- end snippet
+							
+							%><ul class="snippetInfo"><%
+								if(b.getLat()!=null && b.getLat().length()>0){
+									%><a href="<%=Translator.toURL(b.getUsername())%>" alt="see the menu for <%=b.getUsername()%>">menu</a><% 
+									%><a href="#" class="map-link" alt="show <%=b.getUsername()%> on the map">map</a><%
+									%><a href="https://maps.google.com/maps?saddr=###&daddr=<%=b.getLat()%>,<%=b.getLon()%>" class="nav-link" alt="get directions to <%=b.getUsername()%> from your current location">navigate</a><%
+									%><font class="checkin">checked in: <font class="time"><%=b.getCheckin().substring(11,16) %></font></font><%
+								}
+							%></ul><% // --- end links
+							
+						%></div><% // --- end of the container div
+					%></div><% // --- end of the foodtruck div
+				}// --- end unique URL check
+			}// --- end business iterator
+	}// --- end keylist

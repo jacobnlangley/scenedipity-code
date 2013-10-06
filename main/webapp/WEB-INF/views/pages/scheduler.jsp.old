@@ -1,0 +1,62 @@
+<jsp:useBean id="clock" class="scene.tools.JspCalendar" /><%
+%><%@ page import="java.text.SimpleDateFormat, java.util.Calendar,scene.tools.DataBaseAccessWeb,java.sql.Timestamp, java.util.LinkedHashMap,java.util.ArrayList, scene.model.Event"%><%
+%><%@include file="/views/common/i18n.jsp"%><%
+
+%><div id="calendar"><%
+	 %><div class="week"><%
+	 
+	  	java.util.Date day = new SimpleDateFormat("MM/dd/yyyy").parse(clock.getDate()); 
+		String[] days = {"sunday", "monday", "tuesday","wednesday", "thursday","friday", "saturday"}; 
+		
+		LinkedHashMap<String, ArrayList<Event>> sched = theBusiness.getEvents();
+		
+		// --- print out a week in advance
+		String theDate="";
+		for(int i =0; i<7; i++){
+			theDate=(1900+day.getYear())+"-";
+			if(day.getMonth()<9)
+				theDate+="0";
+			theDate+=(day.getMonth()+1)+"-"+day.getDate();
+			
+		if(sched.containsKey(theDate)){
+			%><div class="day"><%
+			%><time datetime="<%=theDate%>"><%
+			  	if(i==0){%>[today] <%}%><%=days[day.getDay()]+" "+day.getDate()%><%
+			  %></time><%
+			
+				  for(Event e : sched.get(theDate)){
+				  %><article id="event-<%=e.getId()%>" class="message <%	
+				  	if(e.getLat()==0){ %>blue<%}
+				  	else{%>yellow<%}
+			  		%>"><%
+					
+				  // creating hcalendar events
+					%><div class="vevent"><%
+					%><a class="url" href="http://scndp.it/g/xxxxxx"><%
+							%> [<abbr class="dtstart" title="<%=theDate+"T"+e.getCheckin().get(Calendar.HOUR_OF_DAY)+":"+e.getCheckin().get(Calendar.MINUTE)+":00"%>-04:0000"><%=e.getCheckin().get(Calendar.HOUR_OF_DAY)%></abbr>:<abbr class="dtend" title="<%=theDate%>"><%=e.getCheckin().get(Calendar.MINUTE)%><%if(e.getCheckin().get(Calendar.MINUTE)<10){%>0<%}%></abbr>] <%
+								if(e.getLat()==0){
+									%><span class="summary">announce<%
+								}else{
+									%><span class="summary" style="display:none"><%=theBusiness.getBusinessName()%></span> at <span class="location"><%=e.getAddress()%><%
+							}
+							%></span><%
+						%></a><br/><%
+						%><div class="description"><%=e.getAnnouncement() %></div><%
+						%></div><%
+						%><ul class="snippetInfo"><%
+							//TODO: ><a>update</a><%
+							%><a id="<%=e.getId()%>" class="delete">delete</a></ul><%
+				  %></article><%
+				  }
+			%></div><%
+		}else{
+			%><div class="day empty"><%
+				%><time datetime="<%=theDate%>"><%
+						if(i==0){%>[today] <%}%><%=days[day.getDay()]+" "+ day.getDate()%><%
+				%></time><%
+			%></div><%
+			}
+		day.setTime(day.getTime()+86400000); // add a single day
+		}
+	%></div><%
+%></div>

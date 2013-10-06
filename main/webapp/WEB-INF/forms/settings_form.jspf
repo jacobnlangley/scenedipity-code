@@ -1,0 +1,15 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="scenedipity" tagdir="/WEB-INF/tags" %>
+<form:form modelAttribute="user"  id="AccountInfo" method="post" action="/scenedipity/account">
+	<fieldset>
+		<h3>Edit your account information on scenedipity</h3>
+		<form:hidden path="revision"/>
+		<scenedipity:form_input name="Account Name" class_attribute="name"/>
+		<scenedipity:form_input name="Full Name" class_attribute="fullname"/>
+		<scenedipity:form_input name="Email" class_attribute="email"/>
+		<scenedipity:form_input name="Password" class_attribute="password"/>
+		<div class="clearfix">
+			<button class="btn large" type="submit">Submit</button>
+		</div>
+	</fieldset>
+</form:form>

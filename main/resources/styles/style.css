@@ -1,0 +1,147 @@
+/*old color :#0fa6c5  susan g koman color: #E770AA */
+html{}
+
+.footer, .toplinks {}
+.fb_reset{float:left; clear:both}
+a{font-size: small;text-decoration:none; color:#0fa6c5; margin:0 3px}
+a:hover{text-decoration:underline}
+
+.toplinks .city{float:left;margin:5px 0 0 0;line-height:25px;; font-size:25px; color:#666}
+.toplinks .city .fb {letter-spacing:-1px;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;font-weight:bold; font-size:20px;}
+.toplinks .city .twitter {letter-spacing:-1px;font-family:'lucida grande',tahoma,verdana,arial,sans-serif;font-weight:bold; font-size:20px;}
+
+.toplinks .theScene{float:left; clear:both}
+.toplinks .theScene h1{float:left;clear:both;line-height:60px;margin:-18px 0 0 0;font-size:60px; color:#222}
+.toplinks .theScene .TM{"font-size:10px; font-family:open sans, sans serif; font-weight:normal;"}
+.toplinks .theScene h1 a{font-size:65px;text-decoration:none; font-family:'Neuton';}
+.toplinks .theScene h1 a:hover{text-decoration:underline;}
+.toplinks .sketch {float:right;clear:left;font-size:26px;font-family:'Cabin Sketch'; color:#0fa6c5; text-align:center;}
+.toplinks .beta{color:red;font-size:small}
+.toplinks a{float:left;}
+.footer ul, .theScene ul{margin:auto 0; padding:0}
+.footer ul li, .theScene ul li{clear:none;display:inline; list-style:none; padding:0 5px; margin:auto 0}
+
+.bannerRight, .bannerLeft{margin-top:0px}
+.bannerRight #loginForm{margin-top:0; padding:0; border:none}
+.bannerRight ul{margin:auto 0}
+.bannerRight ul li{display:inline; list-style:none; padding:0 5px; margin:0 10px}
+.bannerLeft{clear:left;float:left;}
+
+#map_canvas{float:left; clear:both;width:100%;height:100%;min-height:300px; margin:1% 0; border:solid 1px #0fa6c5;-moz-box-shadow: rgba(0, 0, 0, .33) 0 0 5px;-webkit-box-shadow: rgba(0, 0, 0, .33) 0 0 5px;box-shadow: rgba(0, 0, 0, .33) 0 0 5px;}
+.message,#me {float:left; clear:both;color:#666;font-size:14px;font-style:bold; width:99%;margin:10px auto; clear:both; text-align:center; line-height:20px; overflow:auto;padding:10px 0; color:#333;border:solid 1px #0fa6c5;-moz-box-shadow: rgba(0, 0, 0, .33) 0 0 5px;-webkit-box-shadow: rgba(0, 0, 0, .33) 0 0 5px;box-shadow: rgba(0, 0, 0, .33) 0 0 5px;}
+.message a{color:#3C3CFF;font-size:9pt;}
+.message a:hover{color:#3C3CFF;font-size:9pt; text-decoration:underline;}
+.yellow{background:#FCF9CF;border:solid 1px #DEDEDE;color:#797965;}
+.green{border:solid 1px #359545; background:#CEE6C3;;}
+.grey{border:solid 1px #DEDEDE; background:#EFEFEF;color:#222222;}
+.red{border:solid 1px #DD3C10; background:#FFEBE8;color:#CA2026;}
+.blue{border:solid 1px #3378a5; background:#eBF4FB; color:#333}
+#text,input[type="text"].address{line-height:22px; height:44px; font-size:20px;
+	font-family:Helvetica; font-weight:normal;
+	font-size:18px;
+	margin:1% 1% 0 1%;width:96%; float:left}
+input[type="text"].address{height:22px}
+ .counter{
+	font-family:Helvetica;
+	font-size:20px;
+	color:#ccc;
+	}
+ .warning{color:#333;}	
+ .exceeded{color:#e00;}	
+#footer { padding:10px 0;text-align: center;clear: both; font-size: small; color:#555}
+
+
+
+.form{text-align:right;border-left:solid 1px #0fa6c5;border-top:solid 1px #0fa6c5;border-bottom:solid 1px #0fa6c5;  padding:10px;width:375px; margin:20px 0;float:right; clear:right}
+.form input.label{;border:solid 1px #0fa6c5;font-size:13px; padding:5px;margin:3px 0px; color:#555; width:200px}
+.form .n{width:375px; font-size:11px; color:#555}
+.form h1{text-align:left; margin:3px; font-size:27px;}
+.form h3{text-align:left; margin:3px 3px 20px 3px; font-size:17px;}
+.left{text-align:left;border-right:solid 1px #0fa6c5;border-top:solid 1px #0fa6c5;border-bottom:solid 1px #0fa6c5;  padding:10px;width:575px; margin:20px 0;float:left; clear:left}
+.i{font-family: Arial, Helvetica, sans-serif;padding:4px; border:none}
+.bL{font-size:small; color:#bbb}
+
+.calendar{font-family:Helvetica; width:100%;float:left; clear:both; text-align:center}
+.calendar td{width:14%; height:100px;margin-right:3px;border:solid 1px #ccc;border-top:none;border-bottom:none; font-size:x-small}
+.calendar td:hover{border-color:blue}
+.calendar td.selected{border-color:green; border-weight:4px}
+.calendar .time{color:blue}
+.calendar th{font-size:xx-large}
+select{font-size:large; float:left; clear:none}
+.counter{float:right; clear:left; margin:5px 4% 0 0; font-size:x-large}
+.g-button{float:right; clear:none}
+.day{font-weight:normal; font-size:large}
+#day{float:left; clear:none; font-size:x-large}
+#foodtrucks{float:left; width:100%}
+.facebookPage,.foodtruck,.foodtruckc{float:left; width:321px;  margin: 1% 0; padding:-2px; }
+.foodtruck.m{margin:1% 21px}
+.foodtruck img{border:none}
+.snippet{border:solid 1px #0fa6c5;height:85px;min-height:85px;margin-bottom:1px;}
+.snippetInfo{float:right; clear:left; line-height:12px; padding:0; margin:0}
+.snippetInfo .checkin{float:none; clear:none; color:#888; font-size:x-small}
+.snippetInfo .time{font-weight:bold;color:#333}
+.map-location:hover{-moz-box-shadow: rgba(0, 0, 0, .33) 0 0 10px;-webkit-box-shadow: rgba(0, 0, 0, .33) 0 0 10px;box-shadow: rgba(0, 0, 0, .33) 0 0 10px;}
+.foodtruck .bL,.foodtruckc .bL{font-size:11px}
+.foodtruck .fn,.foodtruckc .fn{font-size:12px}
+ .foodtruckInfo{display:none}
+ #me{width:100%;}
+ #me.red{border-color:red}
+ .unique .foodtruck{width:100%; height:auto}
+ .unique .announcement{font-size:x-large; color:#444}
+.announcement{font-size:11px; color:#333;font-family: helvetica}
+button.g-button, a.g-button, input[type=submit].g-button {
+padding: 6px 10px;
+-webkit-border-radius: 2px 2px;
+border: solid 1px rgb(153, 153, 153);
+background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(255, 255, 255)), to(rgb(221, 221, 221)));
+color: #333;
+text-decoration: none;
+cursor: pointer;
+display: inline-block;
+text-align: center;
+text-shadow: 0px 1px 1px rgba(255,255,255,1);
+line-height: 1;
+}
+.g-button:disabled{color:#933;
+background-color:#ffc;}
+
+textarea,input[type=text], input[type=password] {  
+	width:90%;
+    padding: 5px;  
+    font-size: 12px;  
+    text-shadow: 0px 1px 0px #fff;  
+    outline: none;  
+    -webkit-border-radius: 3px;  
+    -moz-border-radius: 3px;  
+    border-radius: 3px;  
+    border: 1px solid #ccc;  
+    -webkit-transition: .3s ease-in-out;  
+    -moz-transition: .3s ease-in-out;  
+}
+  
+   input[type=password]:focus,input[type=text]:focus, textarea:focus {  
+        border: 1px solid #0fa6c5;  
+        -webkit-box-shadow: 0px 0px 6px #0fa6c5;  
+        -moz-box-shadow: 0px 0px 5px #0fa6c5;  
+        box-shadow: 0px 0px 5px #0fa6c5;  
+    }  
+    #location{
+     width: 90%;
+    float:left;clear:both;}
+    .address,.ui-autocomplete{width:90%}
+    .ui-autocomplete {
+    float:left; clear:both;
+    background-color: white;
+    border: 1px solid #cfcfcf;
+    list-style-type: none;
+    padding-left: 10px;
+}
+.ui-autocomplete a:hover{cursor:pointer;cursor:hand}
+	
+    .oauth_provider{float:left; font-size:30px; text-align:center; width:50%; margin:5% 0}
+   .facebookPage{width:60%; margin:auto; border-color:#1D4088; font-size: 13px; color:#aaa } 
+   .facebookPage img {height:85px; max-width:130px; margin-right:5px; float:left}
+   .fb_name{color:#1c2A47; font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;font-size: large; font-weight:bold}
+   .t_name{font-family: Helvetica,sans-serif; font-weight:bold; color:#4099ff}
+    .check{color:#555; line-height:20px;}
+    .oauths{float:left; clear:both;width:100%; color:#222; font-size:small; display:inline}
